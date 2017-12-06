@@ -1,0 +1,19 @@
+[
+{
+  "id": 0,
+  "name": "PC",
+  "picture":"https://images.unsplash.com/photo-1500083443496-000d756d070c?auto=format&fit=crop&w=1328&q=80&ixid=dW5zcGxhc2guY29tOzs7Ozs%3D",
+  "description":"A personal computer (PC) is a multi-purpose computer whose size, capabilities, and price make it feasible for individual use. PCs are intended to be operated directly by an end user, rather than by a computer expert or technician. Computer time-sharing models that were typically used with larger, more expensive minicomputer and mainframe systems, to enable them be used by many people at the same time, are not used with PCs."
+},
+{
+  "id": 1,
+  "name": "Laptop",
+  "picture":"https://images.unsplash.com/photo-1508984921474-bc8302cb4d04?auto=format&fit=crop&w=1350&q=80&ixid=dW5zcGxhc2guY29tOzs7Ozs%3D",
+  "description":"A laptop, often called a notebook, is a small, portable personal computer with a clamshell form factor, an alphanumeric keyboard on the lower part of the clamshell and a thin LCD or LED computer screen on the upper part, which is opened up to use the computer. Laptops are folded shut for transportation, and thus are suitable for mobile use.Although originally there was a distinction between laptops and notebooks, the former being bigger and heavier than the latter, as of 2014, there is often no longer any difference.Laptops are commonly used in a variety of settings, such as at work, in education, in playing games, Internet surfing, for personal multimedia and general home computer use."
+},
+{
+  "id": 2,
+  "name": "Mac",
+  "picture":"https://images.unsplash.com/photo-1496181133206-80ce9b88a853?auto=format&fit=crop&w=1351&q=80&ixid=dW5zcGxhc2guY29tOzs7Ozs%3D",
+  "description":"The MacBook is a brand of notebook computers manufactured by Apple Inc. from May 2006 to February 2012, and relaunched in 2015. It replaced the iBook series and 12-inch PowerBook series of notebooks as a part of the Apple-Intel transition from PowerPC. Positioned as the low end of the MacBook family, below the premium ultra-portable MacBook Air and the powerful MacBook Pro, the MacBook was aimed at the consumer and education markets. It was the best-selling Macintosh ever. For five months in 2008, it was the best-selling laptop of any brand in US retail stores."
+}]

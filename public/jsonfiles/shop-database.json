@@ -1,0 +1,198 @@
+[
+{
+  "id": 0,
+  "name": "Dell 1000",
+  "price": 500,
+  "category_id": 0,
+  "picture": "https://images.unsplash.com/photo-1483058712412-4245e9b90334?auto=format&fit=crop&w=1500&q=80&ixid=dW5zcGxhc2guY29tOzs7Ozs%3D",
+  "description": "The M1000e fits in a 19-inch rack and is 10 rack units high (44 cm), 17.6 wide and 29.7(75.4 cm) deep. The empty blade enclosure weighs 44.5 kg while a fully loaded system can weigh up to 178.8 kg.On the front the servers are inserted while at the backside the power-supplies, fans and I/O modules are inserted together with the management modules(s) (CMC or chassis management controller) and the KVM switch. A blade enclosure offers centralized management for the servers and I/O systems of the blade-system. Most servers used in the blade-system offer an iDRAC card and one can connect to each servers iDRAC via the M1000e management system. It is also possible to connect a virtual KVM switch to have access to the main-console of each installed server."
+},
+{
+  "id": 1,
+  "name": "Dell 2000",
+  "price": 600,
+  "category_id": 0,
+  "highlight": true,
+  "picture": "https://images.unsplash.com/photo-1463171379579-3fdfb86d6285?auto=format&fit=crop&w=1500&q=80&ixid=dW5zcGxhc2guY29tOzs7Ozs%3D",
+  "description": "The N2000 switch series offers a power-efficient Gigabit Ethernet (GbE)network-access switching solution with integrated 10GbE uplinks. With high-performance capabilities and wire-speed performance, utilizing a non-blocking architecture to easily handle unexpected traffic loads, the switches offer simple management and scalability via an 40Gbps (fullduplex) high availability stacking architecture that allows management of up to four switches from a single IP address. An integrated 80PLUScertified power supply and features such as Energy-Efficient Ethernet and short cable detection provide energy efficiency to help decrease power and cooling costs."
+},
+{
+  "id": 2,
+  "name": "Dell 3000",
+  "price": 700,
+  "category_id": 0,
+  "picture": "https://images.unsplash.com/photo-1496171367470-9ed9a91ea931?auto=format&fit=crop&w=1350&q=80&ixid=dW5zcGxhc2guY29tOzs7Ozs%3D",
+  "description": "Video Graphics Array (VGA) is the display hardware first introduced with the IBM PS/2 line of computers in 1987.[1] Through widespread adoption, the term has also come to mean either an analog computer display standard, the 15-pin D-subminiature VGA connector, or the 640×480 resolution characteristic of the VGA hardware.VGA was the last IBM graphics standard to which the majority of PC clone manufacturers conformed, making it the lowest common denominator that virtually all post-1990 PC graphics hardware can be expected to implement. It was officially followed by IBM's Extended Graphics Array (XGA) standard, but was effectively superseded by numerous slightly different extensions to VGA made by clone manufacturers, collectively known as Super VGA."
+},
+{
+  "id": 3,
+  "name": "Dell 4000",
+  "price": 800,
+  "category_id": 0,
+  "picture": "https://images.unsplash.com/photo-1414690165279-49ab0a9a7e66?auto=format&fit=crop&w=1350&q=80&ixid=dW5zcGxhc2guY29tOzs7Ozs%3D",
+  "description": "HDMI implements the EIA/CEA-861 standards, which define video formats and waveforms, transport of compressed, uncompressed, and LPCM audio, auxiliary data, and implementations of the VESA EDID.[5][6](p. III) CEA-861 signals carried by HDMI are electrically compatible with the CEA-861 signals used by the digital visual interface (DVI). No signal conversion is necessary, nor is there a loss of video quality when a DVI-to-HDMI adapter is used.[6](§C) The CEC (Consumer Electronics Control) capability allows HDMI devices to control each other when necessary and allows the user to operate multiple devices with one handheld remote control device.[6](§6.3)Several versions of HDMI have been developed and deployed since initial release of the technology but all use the same cable and connector. Other than improved audio and video capacity, performance, resolution and color spaces, newer versions have optional advanced features such as 3D, Ethernet data connection, and CEC (Consumer Electronics Control) extensions."
+},
+{
+  "id": 4,
+  "name": "HP Workstation 1",
+  "price": 350,
+  "category_id": 0,
+  "picture": "https://images.unsplash.com/5/unsplash-kitsune-3.jpg?auto=format&fit=crop&w=1500&q=80&ixid=dW5zcGxhc2guY29tOzs7Ozs%3D",
+  "description": "The law primarily uses a notion of the consumer in relation to consumer protection laws, and the definition of consumer is often restricted to living persons (i.e. not corporations or businesses) and excludes commercial users.[6] A typical legal rationale for protecting the consumer is based on the notion of policing market failures and inefficiencies, such as inequalities of bargaining power between a consumer and a business.[7] As of all potential voters are also consumers, consumer protection takes on a clear political significance."
+},
+{
+  "id": 5,
+  "name": "HP Workstation 2",
+  "price": 450,
+  "category_id": 0,
+  "picture": "https://images.unsplash.com/photo-1485988412941-77a35537dae4?auto=format&fit=crop&w=1372&q=80&ixid=dW5zcGxhc2guY29tOzs7Ozs%3D",
+  "description": "Physiocratic economists categorized production into productive labour and unproductive labour. Adam Smith expanded this thought by arguing that any economic activities directly related on material products (goods) were productive, and those activities which involved non-material production (services) were unproductive. This emphasis on material production was adapted by David Ricardo, Thomas Robert Malthus and John Stuart Mill, and influenced later Marxian economics. Other, mainly Italian, 18th century economists maintained that all desired goods and services were productive.[1]"
+},
+{
+  "id": 6,
+  "name": "HP Workstation 3",
+  "price": 550,
+  "category_id": 0,
+  "highlight": true,
+  "picture": "https://images.unsplash.com/photo-1481887328591-3e277f9473dc?auto=format&fit=crop&w=1360&q=80&ixid=dW5zcGxhc2guY29tOzs7Ozs%3D",
+  "description": "Quality applied in these forms was mainly developed by the procurement directorates of NASA, the military and nuclear industries from the 1960s and this is why so much emphasis was placed on Quality Assurance. The original versions of Quality Management System Standards (eventually merged to ISO 9001) were designed to contract manufacturers to produce better products, consistently and were focused on Producing, Checking and Quality Control.The subsequent move of the Quality sector towards management systems can be clearly seen by the aggregation of the product quality requirements into one eighth of the current version of ISO 9001. This increased focus on Quality Management has promoted a general perception that quality is about procedures and documentation. Similar experiences can be seen in the areas of Safety Management Systems and Environmental Management Systems."
+},
+{
+  "id": 7,
+  "name": "HP Workstation 4",
+  "price": 650,
+  "category_id": 0,
+  "picture": "https://images.unsplash.com/photo-1501555568989-0d12d825d489?auto=format&fit=crop&w=752&q=80&ixid=dW5zcGxhc2guY29tOzs7Ozs%3D",
+  "description": "ASQ provides its members with certification, training, publications, conferences, and other services. Internationally, ASQ has formed relationships with nonprofit organizations that have comparable missions and principles, forming collaborative efforts to meet the quality needs of companies, individuals, and organizations. ASQ is a founding partner of the American Customer Satisfaction Index (ACSI), a quarterly economic indicator.Since 1989, ASQ has administered the annual Malcolm Baldrige National Quality Award.[citation needed] The ASQ also gives the Dorian Shainin Medal, which is awarded annually for the Development and Application of Creative or U"
+},
+{
+  "id": 8,
+  "name": "HP Probook 1100",
+  "price": 450,
+  "category_id": 1,
+  "picture": "https://images.unsplash.com/photo-1498050108023-c5249f4df085?auto=format&fit=crop&w=1504&q=80&ixid=dW5zcGxhc2guY29tOzs7Ozs%3D",
+  "description": "Wisconsin has been home to a wide variety of cultures over the past 14,000 years. The first people arrived around 10,000 BCE during the Wisconsin Glaciation. These early inhabitants, called Paleo-Indians, hunted now-extinct ice age animals such as the Boaz mastodon, a prehistoric mastodon skeleton unearthed along with spear points in southwest Wisconsin.[17] After the ice age ended around 8000 BCE, people in the subsequent Archaic period lived by hunting, fishing, and gathering food from wild plants. Agricultural societies emerged gradually over the Woodland period between 1000 BCE to 1000 CE. Toward the end of this period, Wisconsin was the heartland of the, which built thousands of animal-shaped mounds across the landscape.[18] Later, between 1000 and 1500 CE, the Mississippian and Oneota cultures built substantial settlements including the fortified village at Aztalan in southeast Wisconsin"
+},
+{
+  "id": 9,
+  "name": "HP Probook 2100",
+  "price": 550,
+  "category_id": 1,
+  "highlight": true,
+  "picture": "https://images.unsplash.com/photo-1482062364825-616fd23b8fc1?auto=format&fit=crop&w=1500&q=80&ixid=dW5zcGxhc2guY29tOzs7Ozs%3D",
+  "description": "The tribe was terminated in the 1950s under federal policy of the time which stressed assimilation. During that period, they brought what has become a landmark case in Indian law to the United States Supreme Court, in Menominee Tribe v. United States (1968), to protect their treaty hunting and fishing rights. The Wisconsin Supreme Court and the United States Court of Claims had drawn opposing conclusions about the effect of the termination on Menominee hunting and fishing rights on their former reservation land. The U.S. Supreme Court determined that the tribe had not lost traditional hunting and fishing rights as a result of termination, as Congress had not clearly ended these in its legislation."
+},
+{
+  "id": 10,
+  "name": "HP Probook 3100",
+  "price": 650,
+  "category_id": 1,
+  "picture": "https://images.unsplash.com/photo-1484417894907-623942c8ee29?auto=format&fit=crop&w=1489&q=80&ixid=dW5zcGxhc2guY29tOzs7Ozs%3D",
+  "description": "The concept of the yen was a component of the Meiji government's modernization program of Japan's economy; which postulated the pursuit of a uniform currency throughout the country modeled after the European decimal currency system. Before the Meiji Restoration, Japan's feudal fiefs all issued their own money, hansatsu, in an array of incompatible denominations. The New Currency Act of 1871 did away with these and established the yen, which was defined as 1.5 g (0.048 troy ounces) of gold, or 24.26 g (0.780 troy ounces) of silver, as the new decimal currency. The former han (fiefs) became prefectures and their mints private chartered banks, which initially retained the right to print money. To bring an end to this situation the Bank of Japan was founded in 1882 and given a monopoly on controlling the money supply."
+},
+{
+  "id": 11,
+  "name": "HP Probook 4100",
+  "price": 750,
+  "category_id": 1,
+  "picture": "https://images.unsplash.com/photo-1487014679447-9f8336841d58?auto=format&fit=crop&w=1466&q=80&ixid=dW5zcGxhc2guY29tOzs7Ozs%3D",
+  "description": "Office of Indian Services: operates the BIA’s general assistance, disaster relief, Indian child welfare, tribal government, Indian Self-Determination, and Indian Reservation Roads Program.Office of Justice Services (OJS): directly operates or funds law enforcement, tribal courts, and detention facilities on federal Indian lands. OJS funded 208 law enforcement agencies, consisting of 43 BIA-operated police agencies, and 165 tribally operated agencies under contract, or compact with the OJS. The office has seven areas of activity: Criminal Investigations and Police Services, Detention/Corrections, Inspection/Internal Affairs, Tribal Law Enforcement and Special Initiatives, the Indian Police Academy, Tribal Justice Support, and Program Management. The OJS also provides"
+},
+{
+  "id": 12,
+  "name": "Sony Vaio x1",
+  "price": 750,
+  "category_id": 1,
+  "highlight": true,
+  "picture": "https://images.unsplash.com/photo-1511415932124-42efedd2eacf?auto=format&fit=crop&w=1351&q=80&ixid=dW5zcGxhc2guY29tOzs7Ozs%3D",
+  "description": "Washburn was raised in Oklahoma City and small towns in Oklahoma, including Purcell, Heavener and Ada, and graduated from Moore High School, in Moore, Oklahoma, a suburb of Oklahoma City. Washburn discussed his childhood and his mother in a speech given when he received the Spirit of Excellence Award from the American Bar Association. He was raised along with two siblings by his mother, Shirley Stark nee Wallace, who was single for much of his childhood. She eventually retired as a community health representative for the Chickasaw Nation and currently serves on the tribe's Council of Elders.[4] Washburn went to college at the University of Oklahoma, where he majored in economics and minored in philosophy. After graduating with honors, Washburn began law school at Washington University in St. Louis where he was the inaugural Gustavus A. Buder Scholar. After his first year of law sch"
+},
+{
+  "id": 13,
+  "name": "Sony Vaio x2",
+  "price": 850,
+  "category_id": 1,
+  "picture": "https://images.unsplash.com/photo-1460925895917-afdab827c52f?auto=format&fit=crop&w=1302&q=80&ixid=dW5zcGxhc2guY29tOzs7Ozs%3D",
+  "description": "In 2009, Washburn was named dean of the University of New Mexico School of Law. He served as dean for more than three years. During this time, the School of Law celebrated the 60th anniversary of its first graduating class with a large celebration attended by more than 800 people and the release of a book entitled which documented the law school community's influence in New Mexico.[15] The 60 for 60 event was reflective of Dean Washburn's efforts to connect the law school with the broader community. Washburn's tenure was also marked by the successful recruitment of several high value faculty members to the law school, in part, by raising all faculty salaries during a time of shrinking fiscal resources. "
+},
+{
+  "id": 14,
+  "name": "Sony Vaio x3",
+  "price": 950,
+  "category_id": 1,
+  "picture": "https://images.unsplash.com/photo-1426024120108-99cc76989c71?auto=format&fit=crop&w=1506&q=80&ixid=dW5zcGxhc2guY29tOzs7Ozs%3D",
+  "description": "Between 1980 and 1985 the dollar had appreciated by about 50% against the Japanese yen, Deutsche Mark, French Franc and British pound, the currencies of the next four biggest economies at the time.[1] This caused considerable difficulties for American industry but at first their lobbying was largely ignored by government. The financial sector was able to profit from the rising dollar, and a depreciation would have run counter to Ronald Reagan's administration's plans for bringing down inflation. A broad alliance of manufacturers, service providers, and farmers responded by running an increasingly high-profile campaign asking for protection against foreign competition."
+},
+{
+  "id": 15,
+  "name": "Sony Vaio x4",
+  "price": 1050,
+  "category_id": 1,
+  "picture": "https://images.unsplash.com/uploads/14125120591540eb48427/c1c4b1aa?auto=format&fit=crop&w=1444&q=80&ixid=dW5zcGxhc2guY29tOzs7Ozs%3D",
+  "description": "The N2000 switch series offers a power-efficient Gigabit Ethernet (GbE)network-access switching solution with integrated 10GbE uplinks. With high-performance capabilities and wire-speed performance, utilizing a non-blocking architecture to easily handle unexpected traffic loads, the switches offer simple management and scalability via an 40Gbps (fullduplex) high availability stacking architecture that allows management of up to four switches from a single IP address. An integrated 80PLUScertified power supply and features such as Energy-Efficient Ethernet and short cable detection provide energy efficiency to help decrease power and cooling costs."
+},
+{
+  "id": 16,
+  "name": "MacBook Pro 1",
+  "price": 1150,
+  "category_id": 2,
+  "picture": "https://images.unsplash.com/7/Top_view.jpg?auto=format&fit=crop&w=1400&q=80&ixid=dW5zcGxhc2guY29tOzs7Ozs%3D",
+  "description": "In the retail currency exchange market, different buying and selling rates will be quoted by money dealers. Most trades are to or from the local currency. The buying rate is the rate at which money dealers will buy foreign currency, and the selling rate is the rate at which they will sell that currency. The quoted rates will incorporate an allowance for a dealer's margin (or profit) in trading, or else the margin may be recovered in the form of a commission or in some other way. Different rates may also be quoted for cash, a documentary form or electronically. The higher rate on documentary transactions has been justified as compensating for the additional time and cost of clearing the document. On the other hand, cash is available for resale immediately, but brings security, storage, and transportation costs, and the cost of tying up capital in a stock of banknotes "
+},
+{
+  "id": 17,
+  "name": "MacBook Pro 2",
+  "price": 1250,
+  "category_id": 2,
+  "highlight": true,
+  "picture": "https://images.unsplash.com/45/QDSMoAMTYaZoXpcwBjsL__DSC0104-1.jpg?auto=format&fit=crop&w=1510&q=80&ixid=dW5zcGxhc2guY29tOzs7Ozs%3D",
+  "description": "Finance is a field that deals with the study of investments. It includes the dynamics of assets and liabilities over time under conditions of different degrees of uncertainty and risk. Finance can also be defined as the science of money management. Finance aims to price assets based on their risk level and their expected rate of return. Finance can be broken into three different sub-categories: public finance, corporate finance and personal finance."
+},
+{
+  "id": 18,
+  "name": "MacBook Pro 3",
+  "price": 1350,
+  "category_id": 2,
+  "picture": "https://images.unsplash.com/photo-1511415932124-42efedd2eacf?auto=format&fit=crop&w=1351&q=80&ixid=dW5zcGxhc2guY29tOzs7Ozs%3D",
+  "description": "Experimental finance aims to establish different market settings and environments to observe experimentally and provide a lens through which science can analyze agents' behavior and the resulting characteristics of trading flows, information diffusion and aggregation, price setting mechanisms, and returns processes. Researchers in experimental finance can study to what extent existing financial economics theory makes valid predictions and therefore prove them, and attempt to discover new principles on which such theory can be extended and be applied to future financial decisions. Research may proceed by conducting trading simulations or by establishing and studying the behavior, and the way that these people act or react, of people in artificial competitive market-like settings."
+},
+{
+  "id": 19,
+  "name": "MacBook Pro 4",
+  "price": 1450,
+  "category_id": 2,
+  "picture": "https://images.unsplash.com/photo-1455894127589-22f75500213a?auto=format&fit=crop&w=1279&q=80&ixid=dW5zcGxhc2guY29tOzs7Ozs%3D",
+  "description": "Doctor of Business Administration programs have a dual purpose: contribute to business theory and further develop the professional practice (e.g. contribute to professional knowledge in business). Universities generally require candidates to have significant experience in business, particularly in roles with leadership or other strategic responsibilities. D.B.A. candidates specialize in areas such as management science, information technology management, organizational behaviour, economics, finance and the like. As with other doctorate programs, curricula may be offered on a full-time or part-time basis. According to the European higher education standards set by the Bologna Process, the normal duration of doctorate programs like the D.B.A. and Ph.D is 4 years of full-time study."
+},
+{
+  "id": 20,
+  "name": "MacBook Pro 5",
+  "price": 1550,
+  "category_id": 2,
+  "picture": "https://images.unsplash.com/photo-1467232004584-a241de8bcf5d?auto=format&fit=crop&w=1500&q=80&ixid=dW5zcGxhc2guY29tOzs7Ozs%3D",
+  "description": "The responsibility for the structure of doctoral programs resides within the graduate research committees or their equivalent within the university. As such, D.B.A programs have a specific set of university regulations and are subject to quality approval processes. Regulations include references to protocols for treating ethical issues in research. These regulations are widely used in Australian Universities. For instance, a D.B.A student cannot embark on the research phase before passing all his or her coursework. Furthermore, upon passing the proposal stage, he or she must clear ethics-related issues with an Ethics Committee. The D.B.A candidate must go through numerous internal moderations of the dissertation before submitting to external examinations (usually at least two). Successful candidates usually revise their dissertations numerous times before final approval is granted from the doctoral committee."
+},
+{
+  "id": 21,
+  "name": "MacBook Pro 6",
+  "price": 1650,
+  "category_id": 2,
+  "picture": "https://images.unsplash.com/photo-1466228432269-af42b400b934?auto=format&fit=crop&w=1400&q=80&ixid=dW5zcGxhc2guY29tOzs7Ozs%3D",
+  "description": "An adjunct professor is a professor who does not hold a permanent or full-time position at that particular academic institution. Adjunct professors usually have no expectation of tenure. This may be someone with a job outside the academic institution teaching courses in a specialized field, or it may refer to persons hired to teach courses on a contractual basis (frequently renewable contracts). It is generally with a teaching load below the minimum required to earn benefits (health insurance, retirement benefits). In contrast with tenure-track professors, adjuncts do not usually have individual offices or a place to store possessions.An adjunct is generally not required or even permitted to participate in the administrative responsibilities at the institution expected of tenure-track professors, nor do adjuncts typically have research responsibilities."
+},
+{
+  "id": 22,
+  "name": "MacBook Pro 7",
+  "price": 1750,
+  "category_id": 2,
+  "picture": "https://images.unsplash.com/photo-1511415932124-42efedd2eacf?auto=format&fit=crop&w=1351&q=80&ixid=dW5zcGxhc2guY29tOzs7Ozs%3D",
+  "description": "A professor who is primarily and originally associated with one academic department, but has become officially associated with a second department, institute, or program within the university and has assumed a professor's duty in that second department as well, could be called a professor by courtesy. Example: Dan Jurafsky is professor of linguistics and professor by courtesy of computer science at Stanford University. Usually, the second courtesy appointment carries with it fewer responsibilities and fewer benefits than a single full appointment (for example, affiliated professors rarely have voting rights in their courtesy department)."
+},
+{
+  "id": 23,
+  "name": "MacBook Pro 8",
+  "price": 1850,
+  "category_id": 2,
+  "picture": "https://images.unsplash.com/photo-1502945015378-0e284ca1a5be?auto=format&fit=crop&w=1350&q=80&ixid=dW5zcGxhc2guY29tOzs7Ozs%3D",
+  "description": "The N2000 switch series offers a power-efficient Gigabit Ethernet (GbE)network-access switching solution with integrated 10GbE uplinks. With high-performance capabilities and wire-speed performance, utilizing a non-blocking architecture to easily handle unexpected traffic loads, the switches offer simple management and scalability via an 40Gbps (fullduplex) high availability stacking architecture that allows management of up to four switches from a single IP address. An integrated 80PLUScertified power supply and features such as Energy-Efficient Ethernet and short cable detection provide energy efficiency to help decrease power and cooling costs."
+}]
