@@ -31,5 +31,9 @@ app.get("/categories", function(req, res, next) {
   res.json(shopCategories);
 });
 
+// Redirecting a 404 Error
+app.get("*", (req,resp)=>{
+  resp.send("Sorry we couldn't find what you requested", 404);
+});
 
 app.listen(port);
