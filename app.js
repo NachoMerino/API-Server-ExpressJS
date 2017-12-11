@@ -3,7 +3,7 @@ const fs = require('fs');
 const bodyParser = require('body-parser');
 const app = express();
 const port = 3000;
-console.info('server runs at port: ', port);
+
 // path of my json file
 const shopDB = require('./public/jsonfiles/shop-database.json');
 const shopCategories = require('./public/jsonfiles/shop-categories.json');
@@ -31,5 +31,13 @@ app.get("/categories", function(req, res, next) {
   res.json(shopCategories);
 });
 
+// Redirecting a 404 Error
+app.get("*", (req,resp)=>{
+  resp.send("Sorry we couldn't find what you requested", 404);
+});
 
-app.listen(port);
+
+
+app.listen(port, ()=>{
+  console.info('server runs at port: ', port);
+})
