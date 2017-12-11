@@ -36,8 +36,6 @@ app.get("*", (req,resp)=>{
   resp.send("Sorry we couldn't find what you requested", 404);
 });
 
-
-
 app.listen(port, ()=>{
   console.info('server runs at port: ', port);
 })
