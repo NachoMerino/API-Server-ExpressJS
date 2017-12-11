@@ -4,7 +4,7 @@ const bodyParser = require('body-parser');
 const app = express();
 const port = 3000;
 console.info('server runs at port: ', port);
-// path of my json file
+// JSON file path
 const shopDB = require('./public/jsonfiles/shop-database.json');
 const shopCategories = require('./public/jsonfiles/shop-categories.json');
 
@@ -13,7 +13,7 @@ app.use('/assets', express.static(__dirname + '/public'));
 app.set('view engine', 'ejs');
 
 
-// CORS on ExpressJS
+// CORS on ExpressJS to go over the port limitations on the same machine
 app.use(function(req, res, next) {
   res.header("Access-Control-Allow-Origin", "*");
   res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
@@ -32,8 +32,8 @@ app.get("/categories", function(req, res, next) {
 });
 
 // Redirecting a 404 Error
-app.get("*", (req,resp)=>{
-  resp.send("Sorry we couldn't find what you requested", 404);
+app.get("*", (req, res) => {
+  res.render('404');
 });
 
 app.listen(port);

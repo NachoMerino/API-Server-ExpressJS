@@ -50,18 +50,18 @@
 },
 {
   "id": 6,
-  "name": "HP Workstation 3",
+  "name": "Sony Baio x134",
   "price": 550,
-  "category_id": 0,
+  "category_id": 1,
   "highlight": true,
   "picture": "https://images.unsplash.com/photo-1481887328591-3e277f9473dc?auto=format&fit=crop&w=1360&q=80&ixid=dW5zcGxhc2guY29tOzs7Ozs%3D",
   "description": "Quality applied in these forms was mainly developed by the procurement directorates of NASA, the military and nuclear industries from the 1960s and this is why so much emphasis was placed on Quality Assurance. The original versions of Quality Management System Standards (eventually merged to ISO 9001) were designed to contract manufacturers to produce better products, consistently and were focused on Producing, Checking and Quality Control.The subsequent move of the Quality sector towards management systems can be clearly seen by the aggregation of the product quality requirements into one eighth of the current version of ISO 9001. This increased focus on Quality Management has promoted a general perception that quality is about procedures and documentation. Similar experiences can be seen in the areas of Safety Management Systems and Environmental Management Systems."
 },
 {
   "id": 7,
-  "name": "HP Workstation 4",
+  "name": "HP Probook 400",
   "price": 650,
-  "category_id": 0,
+  "category_id": 1,
   "picture": "https://images.unsplash.com/photo-1501555568989-0d12d825d489?auto=format&fit=crop&w=752&q=80&ixid=dW5zcGxhc2guY29tOzs7Ozs%3D",
   "description": "ASQ provides its members with certification, training, publications, conferences, and other services. Internationally, ASQ has formed relationships with nonprofit organizations that have comparable missions and principles, forming collaborative efforts to meet the quality needs of companies, individuals, and organizations. ASQ is a founding partner of the American Customer Satisfaction Index (ACSI), a quarterly economic indicator.Since 1989, ASQ has administered the annual Malcolm Baldrige National Quality Award.[citation needed] The ASQ also gives the Dorian Shainin Medal, which is awarded annually for the Development and Application of Creative or U"
 },
