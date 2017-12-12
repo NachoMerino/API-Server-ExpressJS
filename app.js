@@ -3,7 +3,7 @@ const fs = require('fs');
 const bodyParser = require('body-parser');
 const app = express();
 const port = 3000;
-console.info('server runs at port: ', port);
+
 // JSON file path
 const shopDB = require('./public/jsonfiles/shop-database.json');
 const shopCategories = require('./public/jsonfiles/shop-categories.json');
@@ -36,4 +36,7 @@ app.get("*", (req, res) => {
   res.render('404');
 });
 
-app.listen(port);
+app.listen(port, ()=>{
+  console.info('server runs at port: ', port);
+})
+
