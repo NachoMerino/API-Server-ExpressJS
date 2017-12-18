@@ -1,6 +1,7 @@
 const express = require('express');
 const fs = require('fs');
 const bodyParser = require('body-parser');
+const os = require('os');
 const app = express();
 const port = 3000;
 
@@ -20,26 +21,20 @@ app.use(function(req, res, next) {
 });
 
 // Add the current IP to the Index of the server
-'use strict';
-
-var os = require('os');
-var ifaces = os.networkInterfaces();
-
-Object.keys(ifaces).forEach(function(ifname) {
-  var alias = 0;
-
-  ifaces[ifname].forEach(function(iface) {
+const ifaces = os.networkInterfaces();
+Object.keys(ifaces).forEach((ifname) => {
+  let alias = 0;
+  ifaces[ifname].forEach((iface) => {
     if ('IPv4' !== iface.family || iface.internal !== false) {
       // skip over internal (i.e. 127.0.0.1) and non-ipv4 addresses
       return;
     }
-
     if (alias >= 1) {
       // this single interface has multiple ipv4 addresses
       console.log(ifname + ':' + alias, iface.address);
     } else {
       // this interface has only one ipv4 adress
-      console.info('the ip address is: ', ifname, iface.address);
+      console.info(`The IP address is: ${iface.address} connected via ${ifname} `);
       app.get('/', (req, res) => {
         res.render('index', { serverIP: iface.address });
       });
@@ -47,11 +42,6 @@ Object.keys(ifaces).forEach(function(ifname) {
     ++alias;
   });
 });
-
-// en0 192.168.1.101
-// eth0 10.0.0.101
-
-
 
 app.get("/database", function(req, res, next) {
   res.json(shopDB);

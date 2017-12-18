@@ -28,7 +28,7 @@ img {
 main {
   background-color: lightgray;
   padding: 1em 2em 0 2em;
-  height: 100vh;
+  height: auto;
   width: 80vw;
   margin: 0 auto;
 }
