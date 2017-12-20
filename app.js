@@ -22,7 +22,7 @@ const frontendDirectoryPath = path.resolve(__dirname, './../static');
 
 console.info('Static resource on: ', frontendDirectoryPath);
 app.use(bodyParser.json());
-
+app.set('view engine', 'ejs');
 app.use(express.static(frontendDirectoryPath));
 // CORS on ExpressJS to go over the port limitations on the same machine
 app.use(cors());
