@@ -1,23 +1,37 @@
 const express = require('express');
 const fs = require('fs');
-const bodyParser = require('body-parser');
+const path = require('path');
+const cors = require('cors');
+const mysql = require('mysql');
 const os = require('os');
+const bodyParser = require('body-parser');
 const app = express();
-const port = 3000;
+const Router = express.Router;
 
-// JSON file path
-const shopDB = require('./public/jsonfiles/shop-database.json');
-const shopCategories = require('./public/jsonfiles/shop-categories.json');
 
-app.use(bodyParser());
-app.use('/assets', express.static(__dirname + '/public'));
-app.set('view engine', 'ejs');
+const port = 9090;
 
+const con = mysql.createConnection({
+  host: 'localhost',
+  user: 'root',
+  password: 'qwerty',
+  database: 'online_shop'
+});
+
+const frontendDirectoryPath = path.resolve(__dirname, './../static');
+
+console.info('Static resource on: ', frontendDirectoryPath);
+app.use(bodyParser.json());
+
+app.use(express.static(frontendDirectoryPath));
 // CORS on ExpressJS to go over the port limitations on the same machine
-app.use(function(req, res, next) {
-  res.header("Access-Control-Allow-Origin", "*");
-  res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
-  next();
+app.use(cors());
+
+const apiRouter = new Router();
+app.use('/api', apiRouter);
+
+apiRouter.get('/', (req, res) => {
+  res.send({ 'shop-api': '1.0' });
 });
 
 // Add the current IP to the Index of the server
@@ -43,12 +57,30 @@ Object.keys(ifaces).forEach((ifname) => {
   });
 });
 
-app.get("/database", function(req, res, next) {
-  res.json(shopDB);
+///Conect to MySQL
+apiRouter.get('/products', (req, res) => {
+  con.query('select * from products', (err, rows) => {
+    if (err) {
+      throw err;
+    } else {
+      res.type('json');
+      res.send(rows);
+    }
+  });
 });
-app.get("/categories", function(req, res, next) {
-  res.json(shopCategories);
+
+apiRouter.get('/categories', (req, res) => {
+  con.query('select * from product_categories', (err, rows) => {
+    if (err) {
+      throw err;
+    } else {
+      res.type('json');
+      res.send(rows);
+    }
+  });
 });
+///MySQL END
+
 
 // Redirecting a 404 Error
 app.get("*", (req, res) => {

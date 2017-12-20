@@ -1,17 +1,28 @@
 {
-  "name": "webserver-neutrino",
+  "name": "WebServer-SQL",
   "version": "1.0.0",
-  "description": "",
-  "main": "index.js",
+  "description": "A server to provide data fot a webserver in SQL",
+  "main": "app.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start-express": "node app.js",
+    "start-express-dev": "nodemon app.js",
+    "dump-database": "mysqldump -uroot -p online_shop > ./database/online_shop.sql",
+    "import-database": "mysql -uroot -p online_shop < ./database/online_shop.sql"
   },
-  "author": "",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/NachoMerino/API-Server-ExpressJS"
+  },
+  "author": "NachoMerino",
   "license": "ISC",
   "dependencies": {
     "ejs": "^2.5.7",
     "express": "^4.16.2",
+    "cors": "^2.8.4",
     "nodemon": "^1.12.5",
-    "mysql": "^2.15.0"
+    "mysql": "^2.15.0",
+    "popper.js": "^1.13.0",
+    "webpack": "^2.7.0"
   }
 }
