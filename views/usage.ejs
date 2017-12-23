@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="stylesheet" type="text/css" href="/assets/style.css">
+  <title>
+    <%= hostName %>
+  </title>
+</head>
+
+<body id="errorpage">
+  <h1>Welcome to <%= hostName %> Usage API in <%= platform %></h1>
+  <h3>Up since <%= Math.round(upTime*0.0000166667) %> Minutes  </h3>
+  <h3>CPU</h3>
+  <p>CPU Model:
+    <%= cpuModel %>
+  </p>
+  <p>CPU Usage:
+    <%= cpuUsage %>%</p>
+  <h3>Mem usage</h3>
+  <p>
+    Used:
+    <%= Math.round(totalMem) - Math.round(freeMem)%>
+      from
+      <%= Math.round(totalMem)%>(
+        <%= 100 - Math.round(freeMemPer*100) %>%) MB and have
+          <%= Math.round(freeMem) %> (
+            <%= Math.round(freeMemPer*100) %>%) MB free
+  </p>
+</body>
+
+</html>

@@ -4,10 +4,40 @@ const path = require('path');
 const cors = require('cors');
 const mysql = require('mysql');
 const os = require('os');
+const osu = require('os-utils');
 const bodyParser = require('body-parser');
 const app = express();
 const Router = express.Router;
+// socket.io
+var server = require('http').createServer(app);
+var io = require('socket.io')(server);
 
+app.use(express.static(__dirname + '/bower_components'));
+app.get('/', function(req, res, next) {
+  res.sendFile(__dirname + '/index.html');
+});
+
+io.on('connection', function(client) {
+  console.log('Client connected...');
+  /*
+    client.on('join', function(data) {
+      console.log(data);
+      client.emit('messages', osu.freememPercentage()*100);
+    });
+  */
+  setInterval(function() {
+    client.emit('messages', osu.freememPercentage() * 100);
+  }, 1000);
+
+
+  client.on('join', function(data) {
+    console.log(data);
+    client.emit('messages', osu.freememPercentage() * 100);
+  });
+});
+
+server.listen(3000);
+// socket.io
 
 const port = 9090;
 
@@ -19,20 +49,19 @@ const con = mysql.createConnection({
 });
 
 const frontendDirectoryPath = path.resolve(__dirname, './../static');
-
-console.info('Static resource on: ', frontendDirectoryPath);
-app.use(bodyParser.json());
 app.set('view engine', 'ejs');
+app.use('/assets', express.static(__dirname + '/public'));
+app.use(bodyParser.json());
 app.use(express.static(frontendDirectoryPath));
 // CORS on ExpressJS to go over the port limitations on the same machine
 app.use(cors());
+console.info('Static resource on: ', frontendDirectoryPath);
+
+
+
 
 const apiRouter = new Router();
 app.use('/api', apiRouter);
-
-apiRouter.get('/', (req, res) => {
-  res.send({ 'shop-api': '1.0' });
-});
 
 // Add the current IP to the Index of the server
 const ifaces = os.networkInterfaces();
@@ -52,11 +81,13 @@ Object.keys(ifaces).forEach((ifname) => {
       app.get('/', (req, res) => {
         res.render('index', { serverIP: iface.address });
       });
+      apiRouter.get('/', (req, res) => {
+        res.render('index', { serverIP: iface.address });
+      });
     }
     ++alias;
   });
 });
-
 ///Conect to MySQL
 apiRouter.get('/products', (req, res) => {
   con.query('select * from products', (err, rows) => {
@@ -80,8 +111,30 @@ apiRouter.get('/categories', (req, res) => {
   });
 });
 ///MySQL END
+// Get memory and cpu usage
 
-///MySQL END
+apiRouter.get('/usage', (req, res) => {
+  var JSONObject = os.cpus();
+  for (var key in JSONObject) {
+    console.log(`CPU${Number(key)+1}-${JSONObject[key]['model']} Actual Speed: ${Number(JSONObject[key]['speed'])/1000}GHz  `);
+  }
+
+  res.render('usage', {
+    hostName: os.hostname(),
+    platform: os.type(),
+    cpuModel: os.cpus()[0]['model'],
+    cpuUsage: setInterval(function() {
+      osu.cpuUsage(function(v) {
+        console.log('CPU Usage (%): ' + v * 100);
+      });
+    }, 1000),
+    totalMem: osu.totalmem(),
+    freeMem: osu.freemem(),
+    freeMemPer: osu.freememPercentage(),
+    upTime: osu.sysUptime()
+  });
+});
+
 apiRouter.get('/activecustomers', (req, res) => {
   con.query('select id from customers where active = 1 ', (err, rows) => {
     if (err) {
@@ -152,19 +205,19 @@ apiRouter.post('/user', (req, res) => {
 //postOrder.sh
 apiRouter.post('/order', (req, res) => {
   /*
-  fs.writeFile(path.resolve(__dirname, './../../orders/orders'+Date.now()+'.txt'), JSON.stringify(req.body),
-    (err)=>{
-      if(err)
-        res.json({error: err});
-      res.json({success:'order saved'})
-    });
-    */
-  con.query('INSERT INTO orders (customer_id,created,payment_method_id) VALUES (?,now(),?)', [req.body.customer_id, req.body.payment_method_id],
+    fs.writeFile(path.resolve(__dirname, './../../orders/orders'+Date.now()+'.txt'), JSON.stringify(req.body),
+      (err)=>{
+        if(err)
+          res.json({error: err});
+        res.json({success:'order saved'})
+      });
+  */
+  con.query('INSERT INTO orders (customer_id,created,payment_method_id) VALUES (?,now(),?)', [req.body.user.customer_id, req.body.payment_method_id],
     (err, rows) => {
       if (err) {
         throw err;
       } else {
-        con.query('INSERT INTO order_details (order_id,product_id,price) VALUES (' + rows.insertId + ',?,?)', [req.body.product_id, req.body.price],
+        con.query('INSERT INTO order_details (order_id,product_id,price) VALUES (' + rows.insertId + ',?,?)', [req.body.products[0].id, req.body.products[0].price],
           (err, rows) => {
             if (err) {
               throw err;
@@ -209,7 +262,6 @@ apiRouter.delete('/delete/:userid', (req, res) => {
       res.json(rows);
     });
 });
-
 // Redirecting a 404 Error
 app.get("*", (req, res) => {
   res.render('404');
