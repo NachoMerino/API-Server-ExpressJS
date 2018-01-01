@@ -1,0 +1,160 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="stylesheet" type="text/css" href="/assets/style.css">
+  <script src="https://canvasjs.com/assets/script/canvasjs.min.js"></script>
+  <script src="https://code.jquery.com/jquery-1.10.2.js"></script>
+  <script src="/socket.io/socket.io.js"></script>
+  <title>
+    <%= hostName %> Status
+  </title>
+</head>
+
+<body>
+    <nav>
+    <ul>
+      <li>
+      </li>
+    </ul>
+  </nav>
+  <h1>Welcome to <%= hostName %> Usage API in <%= platform %></h1>
+  <h3 id="uptime"></h3>
+  <div id="cpubox">
+    <p>CPU:
+      <%= numberCpus %> processors Model:
+        <%= cpuModel %>
+    </p>
+    <div id="cpu"></div>
+    <div id="averageload"></div>
+  </div>
+  <div id="ramBox">
+    <p>RAM installed
+      <%= Math.round(totalMem) %> MB</p>
+    <div id="future"></div>
+    <div id="totalram"></div>
+    <div id="rampercent"></div>
+  </div>
+  <div id="chartContainer" style="height: 370px; width: 90%; margin: 0 auto;"></div>
+  <script>
+  window.onload = () => {
+    const ip = localStorage.getItem('serverIP');
+    $('li').append(`<p><a href="http://${ip}:9090"><%= hostName %> Main menu</a></p>`)
+
+    let ramLeft = 0;
+    const socket = io.connect('http://localhost:9090');
+    socket.on('connect', (data) => {
+      socket.emit('join', 'client successfuly connected');
+    });
+    socket.on('upTime', (data) => {
+      $('#uptime')
+        .empty()
+        .append(`<%= hostName %> up since: ${Math.round(data)} seconds`);
+    });
+    // data for the chart
+    socket.on('ramUsageFree', (data) => { yValue2 = 100 - Math.round(data) });
+    socket.on('ramFree', (data) => { ramLeft = Math.round(data / 100) });
+    socket.on('cpu', (data) => { yValue1 = Math.round(data * 100) });
+
+    // chart to show cpu and ram usage
+    const dataPoints1 = [];
+    const dataPoints2 = [];
+    const updateInterval = 1000;
+    const dataLength = 60; // number of dataPoints visible at any point 60 is 1 minute
+
+    const chart = new CanvasJS.Chart("chartContainer", {
+      zoomEnabled: true,
+      title: {
+        text: `<%= hostName %> CPU & RAM Usage in the last ${dataLength} Seconds`,
+      },
+      axisX: {
+        title: "By nachomerino",
+      },
+      axisY: {
+        suffix: "%",
+        includeZero: false,
+      },
+      toolTip: {
+        shared: true,
+      },
+      legend: {
+        cursor: "pointer",
+        verticalAlign: "top",
+        fontSize: 22,
+        fontColor: "dimGrey",
+        itemclick: toggleDataSeries,
+      },
+      data: [{
+          type: "spline",
+          yValueFormatString: "##.00",
+          xValueFormatString: "hh:mm:ss",
+          showInLegend: true,
+          name: "CPU Usage",
+          dataPoints: dataPoints1,
+        },
+        {
+          type: "spline",
+          xValueType: "dateTime",
+          yValueFormatString: "##.00",
+          showInLegend: true,
+          name: "RAM Usage",
+          dataPoints: dataPoints2,
+        },
+      ]
+    });
+
+    function toggleDataSeries(e) {
+      if (typeof(e.dataSeries.visible) === "undefined" || e.dataSeries.visible) {
+        e.dataSeries.visible = false;
+      } else {
+        e.dataSeries.visible = true;
+      }
+      chart.render();
+    }
+
+
+    // initial values came from socket.io calls
+    let yValue1 = 0;
+    let yValue2 = 0;
+
+    // Actual time stamp
+    const time = new Date();
+
+    function updateChart(count) {
+      count = count || 1;
+      for (let i = 0; i < count; i += 1) {
+        time.setTime(time.getTime() + updateInterval);
+
+        // pushing the new values
+        dataPoints1.push({
+          x: time.getTime(),
+          y: yValue1
+        });
+        dataPoints2.push({
+          x: time.getTime(),
+          y: yValue2
+        });
+      }
+      // show just the dataLength
+      if (dataPoints1.length > dataLength) {
+        dataPoints1.shift();
+        dataPoints2.shift();
+      }
+
+      // updating legend text with  updated with y Value 
+      chart.options.data[0].legendText = `CPU Usage ${yValue1}%`;
+      chart.options.data[1].legendText = `RAM Usage ${yValue2}% left ${ramLeft} MB`;
+      chart.render();
+    }
+    // generates first set of dataPoints 
+    updateChart(0);
+    setInterval(() => { updateChart() }, updateInterval);
+  }
+
+  </script>
+</body>
+
+</html>

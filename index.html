@@ -6,7 +6,9 @@
 
 <body>
   <h1>Hello World!</h1>
-  <div id="future"></div>
+  <div id="future">
+  </div>
+  <div id="totalram"></div>
   <form id="form" id="chat_form">
     <input id="chat_input" type="text">
     <input type="submit" value="Send">
@@ -18,10 +20,15 @@
   socket.on('connect', function(data) {
     socket.emit('join', 'Hello World from client');
   });
-  socket.on('messages', function(data) {
+  socket.on('ramUsageFree', function(data) {
     $('#future')
     .empty()
-    .append(data);
+    .append(data);   
+  });
+    socket.on('ramFree', function(data) {
+    $('#totalram')
+    .empty()
+    .append(data);   
   });
 
   </script>

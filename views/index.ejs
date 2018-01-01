@@ -6,13 +6,16 @@
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <link rel="stylesheet" type="text/css" href="/assets/style.css">
-  <title>Nacho's Server for Ecommerce</title>
+  <title>Nacho's Server</title>
 </head>
 
 <body>
   <main>
     <h1>Wiki: How to use it</h1>
     <h3>API for an Online Shop</h3>
+    <div class="info">
+      <p class="big"><a href="http://<%= serverIP %>:9090/status" target="_blank">Check <%= hostName %> Status</a></p>
+    </div>
     <p class="big">How to enter:</p>
     <p>Address to DataBase is: <a href="http://<%= serverIP %>:9090/api/products/" target="_blank">http://<%= serverIP %>:9090/api/products/</a></p>
     <p>Address to Categories: <a href="http://<%= serverIP %>:9090/api/categories/" target="_blank">http://<%= serverIP %>:9090/api/categories/</a></p>
@@ -51,6 +54,10 @@
       <p>Server Proudly developed by <a target="_blank" href="https://github.com/NachoMerino">NachoMerino</a>.</p>
     </footer>
   </main>
+  <script type="text/javascript">
+    const serverIP = '<%= serverIP %>';
+    localStorage.setItem('serverIP', serverIP);
+  </script>
 </body>
 
 </html>

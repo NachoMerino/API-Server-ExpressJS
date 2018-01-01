@@ -8,36 +8,6 @@ const osu = require('os-utils');
 const bodyParser = require('body-parser');
 const app = express();
 const Router = express.Router;
-// socket.io
-var server = require('http').createServer(app);
-var io = require('socket.io')(server);
-
-app.use(express.static(__dirname + '/bower_components'));
-app.get('/', function(req, res, next) {
-  res.sendFile(__dirname + '/index.html');
-});
-
-io.on('connection', function(client) {
-  console.log('Client connected...');
-  /*
-    client.on('join', function(data) {
-      console.log(data);
-      client.emit('messages', osu.freememPercentage()*100);
-    });
-  */
-  setInterval(function() {
-    client.emit('messages', osu.freememPercentage() * 100);
-  }, 1000);
-
-
-  client.on('join', function(data) {
-    console.log(data);
-    client.emit('messages', osu.freememPercentage() * 100);
-  });
-});
-
-server.listen(3000);
-// socket.io
 
 const port = 9090;
 
@@ -47,6 +17,49 @@ const con = mysql.createConnection({
   password: 'qwerty',
   database: 'online_shop'
 });
+
+// socket.io
+const server = require('http').createServer(app);
+const io = require('socket.io').listen(server);
+
+app.use(express.static(__dirname + '/bower_components'));
+app.get('/status', function(req, res, next) {
+  res.render('socketio', {
+    hostName: os.hostname(),
+    platform: os.type(),
+    cpuModel: os.cpus()[0]['model'],
+    numberCpus: os.cpus().length,
+    totalMem: osu.totalmem(),
+  });
+});
+
+io.on('connection', function(client) {
+  console.log('One client is connected');
+  // send data every second without reload the page
+  setInterval(function() {
+    client.emit('ramUsageFree', osu.freememPercentage() * 100);
+  }, 1000);
+  setInterval(function() {
+    client.emit('ramFree', osu.freemem() * 100);
+  }, 1000);
+  setInterval(function() {
+    client.emit('upTime', osu.sysUptime());
+  }, 1000);
+  setInterval(function() {
+    client.emit('ramPercent', osu.freememPercentage());
+  }, 1000);
+  setInterval(function() {
+    osu.cpuUsage(function(v) {
+      client.emit('cpu', v);
+    });
+  }, 1000);
+
+  client.on('join', function(data) {
+    console.log(data);
+    client.emit('ramUsageFree', osu.freememPercentage() * 100);
+  });
+});
+// socket.io
 
 const frontendDirectoryPath = path.resolve(__dirname, './../static');
 app.set('view engine', 'ejs');
@@ -79,10 +92,16 @@ Object.keys(ifaces).forEach((ifname) => {
       // this interface has only one ipv4 adress
       console.info(`The IP address is: ${iface.address} connected via ${ifname} `);
       app.get('/', (req, res) => {
-        res.render('index', { serverIP: iface.address });
+        res.render('index', {
+          serverIP: iface.address,
+          hostName: os.hostname(),
+        });
       });
       apiRouter.get('/', (req, res) => {
-        res.render('index', { serverIP: iface.address });
+        res.render('index', {
+          serverIP: iface.address,
+          hostName: os.hostname(),
+        });
       });
     }
     ++alias;
@@ -267,7 +286,7 @@ app.get("*", (req, res) => {
   res.render('404');
 });
 
-app.listen(port, (err) => {
+server.listen(port, (err) => {
   if (err) throw err;
   console.info('Server started on port', port);
 });
