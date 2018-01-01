@@ -5,14 +5,30 @@
   <meta charset="utf-8">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css">
+  <link href='https://fonts.googleapis.com/css?family=Droid+Serif:400,700' rel='stylesheet' type='text/css'>
   <link rel="stylesheet" type="text/css" href="/assets/style.css">
-  <title>404 Not Found</title>
+  <script src="https://code.jquery.com/jquery-1.10.2.js"></script>
+  <title>Upps... Something happend</title>
 </head>
 
 <body id="errorpage">
-  <h1>404</h1>
+  <h1>Upps... Something happend</h1>
   <img id="bedo" src="/assets/images/bedo.png">
-  <h1>Sorry we couldn't find what you requested</h1>
+  <nav>
+    <ul>
+      <li>
+      </li>
+    </ul>
+  </nav>
+  <h1>Sorry we couldn't find what you requested or we brake something</h1>
+  <script type="text/javascript">
+  window.onload = () => {
+    const ip = localStorage.getItem('serverIP');
+    $('li').append(`<h1><a href="http://${ip}:9090">Bring me back to main page</a></h1>`);
+  }
+
+  </script>
 </body>
 
 </html>

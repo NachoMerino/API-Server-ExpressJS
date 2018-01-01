@@ -9,6 +9,13 @@ img {
   width: 100%;
   height: auto;
 }
+
+a {
+  text-decoration: none;
+  font-weight: bold;
+  color: black;
+}
+
 #errorpage {
   color: green;
   margin-top: 25vh;
@@ -17,6 +24,28 @@ img {
 
 #errorpage h1 {
   margin: 0 auto;
+}
+
+#errorpage nav {
+  margin: 0 auto;
+}
+
+#errorpage li {
+  list-style: none;
+}
+
+#errorpage a {
+  border: 2px solid #4CAF50;
+  width: 90%;
+  margin: 0 auto;
+  border-radius: .5em;
+  text-align: center;
+  padding: 14px 55px;
+  background-color: #f44336;
+}
+
+#usagepage .canvasjs-chart-credit {
+  display: none;
 }
 
 #bedo {
@@ -56,4 +85,86 @@ main {
 footer {
   display: flex;
   flex: 1 0 auto;
+}
+
+#usagepage fieldset {
+  border-radius: 10px;
+  margin: 0px 0px 10px 0px;
+  border: 1px solid gray;
+  padding: 10px 20px;
+  margin: 1em;
+  background: lightgray;
+  box-shadow: inset 0px 0px 15px gray;
+}
+
+#usagepage fieldset legend {
+  color: black;
+  border-top: 1px solid gray;
+  border-left: 1px solid gray;
+  border-right: 1px solid gray;
+  border-radius: 5px 5px 0px 0px;
+  background: lightgray;
+  padding: 0px 8px 3px 8px;
+  box-shadow: -0px -1px 2px gray;
+  font-weight: normal;
+  font-size: 12px;
+}
+
+#usagepage h1 {
+  background: #2A88AD;
+  padding: 20px 30px 15px 30px;
+  margin: 0;
+  border-radius: 10px 10px 0 0;
+  color: #fff;
+  text-shadow: 1px 1px 3px rgba(0, 0, 0, 0.12);
+  font: normal 30px 'Bitter', serif;
+  box-shadow: inset 0px 2px 2px 0px rgba(255, 255, 255, 0.17);
+  border: 1px solid #257C9E;
+}
+
+#usagepage h1>span {
+  display: block;
+  margin-top: 2px;
+  font: 13px Arial, Helvetica, sans-serif;
+}
+
+#usagepage .button {
+  text-align: center;
+  display: block;
+  font: bold 1em Arial;
+  text-decoration: none;
+  background-color: #2A88AD;
+  color: #333333;
+  padding: 1em 2em;
+  box-shadow: inset 0px 2px 2px 0px rgba(255, 255, 255, 0.17);
+  border: 1px solid #257C9E;
+}
+
+#usagepage .button:hover {
+  background-color: #4890ad;
+  color: white;
+}
+
+#chartContainer {
+  height: 370px;
+  width: 90%;
+  margin: 0 auto;
+}
+
+#usagepage footer p {
+  display: block;
+  width: 100%;
+  background: #2A88AD;
+  padding: 20px 30px 15px 30px;
+  margin: 0;
+  border-radius: 0 0 10px 10px;
+  color: #fff;
+  text-shadow: 1px 1px 3px rgba(0, 0, 0, 0.12);
+  font: normal 30px 'Bitter', serif;
+  box-shadow: inset 0px 2px 2px 0px rgba(255, 255, 255, 0.17);
+  border: 1px solid #257C9E;
+}
+
+#usagepage footer a {
+  color: #fff;
 }

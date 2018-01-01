@@ -14,35 +14,44 @@
   </title>
 </head>
 
-<body>
-    <nav>
-    <ul>
-      <li>
-      </li>
-    </ul>
-  </nav>
-  <h1>Welcome to <%= hostName %> Usage API in <%= platform %></h1>
+<body id="usagepage">
+  <header>
+    <h1>Welcome to <%= hostName %> Usage API in <%= platform %><span>A way to track your server!</span><span></span></h1>
+  </header>
   <h3 id="uptime"></h3>
   <div id="cpubox">
-    <p>CPU:
-      <%= numberCpus %> processors Model:
+    <fieldset>
+      <legend id="cpulegend">
+        <%= numberCpus %> CPU</legend>
+      <p>Model:
         <%= cpuModel %>
-    </p>
-    <div id="cpu"></div>
-    <div id="averageload"></div>
+      </p>
+    </fieldset>
   </div>
+  <br>
   <div id="ramBox">
-    <p>RAM installed
-      <%= Math.round(totalMem) %> MB</p>
-    <div id="future"></div>
-    <div id="totalram"></div>
-    <div id="rampercent"></div>
+    <fieldset>
+      <legend>RAM</legend>
+      <p>RAM installed
+        <%= Math.round(totalMem) %> MB</p>
+    </fieldset>
   </div>
-  <div id="chartContainer" style="height: 370px; width: 90%; margin: 0 auto;"></div>
+  <br>
+  <div id="chartContainer"></div>
+<footer>
+  <p>Developed with 💙 in Berlin by <a href="https://github.com/NachoMerino/API-Server-ExpressJS">Nacho Merino</a>.</p>
+</footer>
   <script>
   window.onload = () => {
     const ip = localStorage.getItem('serverIP');
-    $('li').append(`<p><a href="http://${ip}:9090"><%= hostName %> Main menu</a></p>`)
+    $('header').append(`<a href="http://${ip}:9090" class="button">Go back to <%= hostName %> Main menu</a>`);
+
+    // write the singular or plural on cpu
+    if ('<%= numberCpus %>' == 1) {
+      $('#cpulegend').empty().append(`${<%= numberCpus %>} CPU`);
+    } else {
+      $('#cpulegend').empty().append(`${<%= numberCpus %>} CPUs`);
+    }
 
     let ramLeft = 0;
     const socket = io.connect('http://localhost:9090');
@@ -50,7 +59,7 @@
       socket.emit('join', 'client successfuly connected');
     });
     socket.on('upTime', (data) => {
-      $('#uptime')
+      $('span:nth-child(2)')
         .empty()
         .append(`<%= hostName %> up since: ${Math.round(data)} seconds`);
     });

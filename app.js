@@ -24,7 +24,7 @@ const io = require('socket.io').listen(server);
 
 app.use(express.static(__dirname + '/bower_components'));
 app.get('/status', function(req, res, next) {
-  res.render('socketio', {
+  res.render('usage', {
     hostName: os.hostname(),
     platform: os.type(),
     cpuModel: os.cpus()[0]['model'],
@@ -130,30 +130,6 @@ apiRouter.get('/categories', (req, res) => {
   });
 });
 ///MySQL END
-// Get memory and cpu usage
-
-apiRouter.get('/usage', (req, res) => {
-  var JSONObject = os.cpus();
-  for (var key in JSONObject) {
-    console.log(`CPU${Number(key)+1}-${JSONObject[key]['model']} Actual Speed: ${Number(JSONObject[key]['speed'])/1000}GHz  `);
-  }
-
-  res.render('usage', {
-    hostName: os.hostname(),
-    platform: os.type(),
-    cpuModel: os.cpus()[0]['model'],
-    cpuUsage: setInterval(function() {
-      osu.cpuUsage(function(v) {
-        console.log('CPU Usage (%): ' + v * 100);
-      });
-    }, 1000),
-    totalMem: osu.totalmem(),
-    freeMem: osu.freemem(),
-    freeMemPer: osu.freememPercentage(),
-    upTime: osu.sysUptime()
-  });
-});
-
 apiRouter.get('/activecustomers', (req, res) => {
   con.query('select id from customers where active = 1 ', (err, rows) => {
     if (err) {
@@ -283,7 +259,9 @@ apiRouter.delete('/delete/:userid', (req, res) => {
 });
 // Redirecting a 404 Error
 app.get("*", (req, res) => {
-  res.render('404');
+  res.render('404', {
+    hostName: os.hostname()
+  });
 });
 
 server.listen(port, (err) => {
