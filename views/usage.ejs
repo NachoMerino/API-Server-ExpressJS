@@ -28,7 +28,6 @@
       </p>
     </fieldset>
   </div>
-  <br>
   <div id="ramBox">
     <fieldset>
       <legend>RAM</legend>
@@ -38,9 +37,10 @@
   </div>
   <br>
   <div id="chartContainer"></div>
-<footer>
-  <p>Developed with 💙 in Berlin by <a href="https://github.com/NachoMerino/API-Server-ExpressJS">Nacho Merino</a>.</p>
-</footer>
+  <div id="chartContainerHDD" style="height: 370px; width: 100%;"></div>
+  <footer>
+    <p>Developed with 💙 in Berlin by <a href="https://github.com/NachoMerino/API-Server-ExpressJS">Nacho Merino</a>.</p>
+  </footer>
   <script>
   window.onload = () => {
     const ip = localStorage.getItem('serverIP');
@@ -161,9 +161,28 @@
     // generates first set of dataPoints 
     updateChart(0);
     setInterval(() => { updateChart() }, updateInterval);
+
+    // HDD Pie Chart
+
+    var chartHDD = new CanvasJS.Chart("chartContainerHDD", {
+      animationEnabled: true,
+      title: {
+        text: "HDD in <%= hostName %>"
+      },
+      data: [{
+        type: "pie",
+        startAngle: 240,
+        yValueFormatString: "##0.00\"GB\"",
+        indexLabel: "{label} {y}",
+        dataPoints: [
+          { y: '<%= totalHDD %>', label: "HDD installed" },
+          { y: '<%= totalHDD %>'-'<%= freeHDD %>', label: "HDD used" },
+        ]
+      }]
+    });
+    chartHDD.render();
   }
 
   </script>
 </body>
-
 </html>

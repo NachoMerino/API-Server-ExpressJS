@@ -17,20 +17,35 @@ const con = mysql.createConnection({
   password: 'qwerty',
   database: 'online_shop'
 });
-
+// diskUsage in Bytes (1 Byte 1e-9 GB)
+const disk = require('diskusage');
 // socket.io
 const server = require('http').createServer(app);
 const io = require('socket.io').listen(server);
 
 app.use(express.static(__dirname + '/bower_components'));
 app.get('/status', function(req, res, next) {
-  res.render('usage', {
-    hostName: os.hostname(),
-    platform: os.type(),
-    cpuModel: os.cpus()[0]['model'],
-    numberCpus: os.cpus().length,
-    totalMem: osu.totalmem(),
+  let way = os.platform() === 'win32' ? 'c:' : '/';
+  disk.check(way, function(err, info) {
+    if (err) {
+      console.log(err);
+    } else {
+      const availableHDD = Math.round(info.available * 1e-9);
+      const freeHDD = Math.round(info.free * 1e-9);
+      const totalHDD = Math.round(info.total * 1e-9);
+      res.render('usage', {
+        hostName: os.hostname(),
+        platform: os.type(),
+        cpuModel: os.cpus()[0]['model'],
+        numberCpus: os.cpus().length,
+        totalMem: osu.totalmem(),
+        totalHDD: totalHDD,
+        freeHDD: freeHDD,
+        availableHDD: availableHDD,
+      });
+    }
   });
+
 });
 
 io.on('connection', function(client) {
