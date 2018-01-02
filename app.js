@@ -23,6 +23,9 @@ const disk = require('diskusage');
 const server = require('http').createServer(app);
 const io = require('socket.io').listen(server);
 
+// CORS on ExpressJS to go over the port limitations on the same machine
+app.use(cors());
+
 app.use(express.static(__dirname + '/bower_components'));
 app.get('/status', function(req, res, next) {
   let way = os.platform() === 'win32' ? 'c:' : '/';
@@ -81,8 +84,7 @@ app.set('view engine', 'ejs');
 app.use('/assets', express.static(__dirname + '/public'));
 app.use(bodyParser.json());
 app.use(express.static(frontendDirectoryPath));
-// CORS on ExpressJS to go over the port limitations on the same machine
-app.use(cors());
+
 console.info('Static resource on: ', frontendDirectoryPath);
 
 
