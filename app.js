@@ -13,7 +13,7 @@ const port = 9090;
 
 const con = mysql.createConnection({
   host: 'localhost',
-  user: 'root',
+  user: 'nacho',
   password: 'qwerty',
   database: 'online_shop'
 });
@@ -36,6 +36,7 @@ app.get('/status', function(req, res, next) {
       const availableHDD = Math.round(info.available * 1e-9);
       const freeHDD = Math.round(info.free * 1e-9);
       const totalHDD = Math.round(info.total * 1e-9);
+      
       res.render('usage', {
         hostName: os.hostname(),
         platform: os.type(),
