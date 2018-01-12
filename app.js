@@ -17,6 +17,15 @@ const con = mysql.createConnection({
   password: 'qwerty',
   database: 'online_shop'
 });
+
+//DB for Status Login
+const conToStatus = mysql.createConnection({
+  host: 'localhost',
+  user: 'nacho',
+  password: 'qwerty',
+  database: 'status_login'
+});
+
 // diskUsage in Bytes (1 Byte 1e-9 GB)
 const disk = require('diskusage');
 // socket.io

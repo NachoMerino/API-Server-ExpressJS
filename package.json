@@ -17,6 +17,7 @@
   "author": "NachoMerino",
   "license": "ISC",
   "dependencies": {
+    "bcrypt": "^1.0.3",
     "cors": "^2.8.4",
     "diskusage": "^0.2.4",
     "ejs": "^2.5.7",
