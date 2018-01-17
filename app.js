@@ -10,7 +10,7 @@ const app = express();
 const Router = express.Router;
 
 const port = 9090;
-
+//renew it with the new secure pass
 const con = mysql.createConnection({
   host: 'localhost',
   user: 'nacho',
