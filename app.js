@@ -38,7 +38,7 @@ const con = mysql.createConnection({
 });
 
 
-// diskUsage in Bytes (1 Byte 1e-9 GB)
+// diskUsage in Bytes (1 Byte 1e-9 GB) make it
 const disk = require('diskusage');
 // socket.io
 const server = require('http').createServer(app);
