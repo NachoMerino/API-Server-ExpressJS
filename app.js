@@ -3,128 +3,68 @@ const fs = require('fs');
 const path = require('path');
 const cors = require('cors');
 const mysql = require('mysql');
-const os = require('os');
-const osu = require('os-utils');
 const bodyParser = require('body-parser');
 const app = express();
+const mailnotifier = require('./mailnotifer');
+const jwt = require('jsonwebtoken');
+const serverSignature = 'Super_Secret_Signature';
+const bcrypt = require('bcrypt');
+const randomstring = require('randomstring');
+app.set('view engine', 'ejs');
 const Router = express.Router;
 
 const port = 9090;
-//renew it with the new secure pass
+
+let osFolder = process.env.HOME + '/.online_shop';
+let shopConfig = null;
+if (!fs.existsSync(osFolder)) {
+  fs.mkdirSync(osFolder);
+  let initialConfig = {
+    mysql_user: '',
+    mysql_db: '',
+    mysql_pwd: '',
+    mailnotifications: '0',
+  }
+  fs.writeFileSync(osFolder + '/.config.json', JSON.stringify(initialConfig));
+  console.log('The config folder does not exist, it has been created now. The server will exit now');
+  process.exit();
+
+} else {
+  shopConfig = require(osFolder + '/.config.json');
+}
+
+
 const con = mysql.createConnection({
   host: 'localhost',
-  user: 'nacho',
-  password: 'qwerty',
-  database: 'online_shop'
+  user: shopConfig.mysql_user,
+  password: shopConfig.mysql_pwd,
+  database: shopConfig.mysql_db,
 });
-// diskUsage in Bytes (1 Byte 1e-9 GB)
-const disk = require('diskusage');
-// socket.io
-const server = require('http').createServer(app);
-const io = require('socket.io').listen(server);
-
-// CORS on ExpressJS to go over the port limitations on the same machine
-app.use(cors());
-
-app.use(express.static(__dirname + '/bower_components'));
-app.get('/status', function(req, res, next) {
-  let way = os.platform() === 'win32' ? 'c:' : '/';
-  disk.check(way, function(err, info) {
-    if (err) {
-      console.log(err);
-    } else {
-      const availableHDD = Math.round(info.available * 1e-9);
-      const freeHDD = Math.round(info.free * 1e-9);
-      const totalHDD = Math.round(info.total * 1e-9);
-      
-      res.render('usage', {
-        hostName: os.hostname(),
-        platform: os.type(),
-        cpuModel: os.cpus()[0]['model'],
-        numberCpus: os.cpus().length,
-        totalMem: osu.totalmem(),
-        totalHDD: totalHDD,
-        freeHDD: freeHDD,
-        availableHDD: availableHDD,
-      });
-    }
-  });
-
-});
-
-io.on('connection', function(client) {
-  console.log('One client is connected');
-  // send data every second without reload the page
-  setInterval(function() {
-    client.emit('ramUsageFree', osu.freememPercentage() * 100);
-  }, 1000);
-  setInterval(function() {
-    client.emit('ramFree', osu.freemem() * 100);
-  }, 1000);
-  setInterval(function() {
-    client.emit('upTime', osu.sysUptime());
-  }, 1000);
-  setInterval(function() {
-    client.emit('ramPercent', osu.freememPercentage());
-  }, 1000);
-  setInterval(function() {
-    osu.cpuUsage(function(v) {
-      client.emit('cpu', v);
-    });
-  }, 1000);
-
-  client.on('join', function(data) {
-    console.log(data);
-    client.emit('ramUsageFree', osu.freememPercentage() * 100);
-  });
-});
-// socket.io
 
 const frontendDirectoryPath = path.resolve(__dirname, './../static');
-app.set('view engine', 'ejs');
-app.use('/assets', express.static(__dirname + '/public'));
-app.use(bodyParser.json());
-app.use(express.static(frontendDirectoryPath));
 
 console.info('Static resource on: ', frontendDirectoryPath);
+app.use(bodyParser.json());
 
-
-
+app.use(express.static(frontendDirectoryPath));
+// CORS on ExpressJS to go over the port limitations on the same machine
+app.use(cors());
+/*Old fashion way
+app.use(function(req, res, next) {
+  res.header("Access-Control-Allow-Origin", "*");
+  res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
+  next();
+});
+*/
+// always want to have /api in the begining
 
 const apiRouter = new Router();
 app.use('/api', apiRouter);
 
-// Add the current IP to the Index of the server
-const ifaces = os.networkInterfaces();
-Object.keys(ifaces).forEach((ifname) => {
-  let alias = 0;
-  ifaces[ifname].forEach((iface) => {
-    if ('IPv4' !== iface.family || iface.internal !== false) {
-      // skip over internal (i.e. 127.0.0.1) and non-ipv4 addresses
-      return;
-    }
-    if (alias >= 1) {
-      // this single interface has multiple ipv4 addresses
-      console.log(ifname + ':' + alias, iface.address);
-    } else {
-      // this interface has only one ipv4 adress
-      console.info(`The IP address is: ${iface.address} connected via ${ifname} `);
-      app.get('/', (req, res) => {
-        res.render('index', {
-          serverIP: iface.address,
-          hostName: os.hostname(),
-        });
-      });
-      apiRouter.get('/', (req, res) => {
-        res.render('index', {
-          serverIP: iface.address,
-          hostName: os.hostname(),
-        });
-      });
-    }
-    ++alias;
-  });
+apiRouter.get('/', (req, res) => {
+  res.send({ 'shop-api': '1.0' });
 });
+
 ///Conect to MySQL
 apiRouter.get('/products', (req, res) => {
   con.query('select * from products', (err, rows) => {
@@ -178,70 +118,289 @@ apiRouter.get('/payment_methods', (req, res) => {
   });
 });
 
-apiRouter.put('/activate/:userid', (req, res) => {
-  con.query('UPDATE customers set active = ? where id = ?', [req.body.status, req.params.userid],
-    (err, rows) => {
-      if (err)
-        throw err;
+apiRouter.get('/orders', (req, res) => {
+  con.query('SELECT * FROM orders', (err, rows) => {
+    if (err) {
+      throw err;
+    } else {
       res.json(rows);
+    }
+  });
+});
+// login with postman!
+
+apiRouter.post('/login', (req, res) => {
+  if (!req.body.email || !req.body.pwd) {
+    return res.json({ err: 'Mail and password required' });
+  }
+
+  con.query('select * from customers where email = ?', [req.body.email],
+    function(err, rows) {
+      if (err) {
+        throw err;
+      }
+      if (rows.length > 0 && bcrypt.compareSync(req.body.pwd, rows[0].pwd)) {
+        const token = jwt.sign({ email: rows[0].email, pwd: rows[0].pwd }, serverSignature);
+        return res.json({
+          firstname: rows[0].firstname,
+          token: token,
+          id: rows[0].id,
+          firstname: rows[0].firstname,
+          lastname: rows[0].lastname,
+          birthdate: rows[0].birthdate,
+          email: rows[0].email,
+          phone: rows[0].phone,
+          city: rows[0].city,
+          postal: rows[0].postal,
+          street: rows[0].street,
+        });
+      } else {
+        return res.json({ err: 'Mail/Password not found' });
+      }
     });
 });
-// postUser.sh
-apiRouter.post('/user', (req, res) => {
+// recover password
 
-  con.query('select email from customers where email = ?', [req.body.email],
+apiRouter.post('/recover', (req, res) => {
+  con.query('select id from customers where email = ?', [req.body.recEmail],
     function(err, rows) {
-      if (err)
-        throw res.json();
-      if (rows.length > 0) {
-        res.json('The email ' + [req.body.email] + ' its already in use.');
+      if (rows.length === 0) {
+        // i think we should not have this
+        return res.json({ err: 'The email ' + [req.body.recEmail] + ' does not exist in our DB' });
       } else {
-        con.query('INSERT INTO customers (firstname,lastname,birthdate,phone,city,street,postal,email) VALUES (?,?,?,?,?,?,?,?)', [req.body.firstname,
-            req.body.lastname,
-            req.body.birthdate,
-            req.body.phone,
-            req.body.city,
-            req.body.street,
-            req.body.postal,
-            req.body.email
+        const rndString = randomstring.generate(20);
+        con.query('INSERT INTO passwordreset (code,email,customerID) VALUES (?,?,?)', [rndString,
+            req.body.recEmail, rows[0].id,
           ],
           (err, rows) => {
             if (err) {
               throw err;
             } else {
-              res.json(rows);
+              return res.json({ success: 'Ready to change the pass' });
             }
           });
+        // email stuff
+        if (shopConfig.mailnotifications === '0') {
+          console.log('Sending recover email to:', req.body.recEmail);
+          const userEmail = req.body.recEmail;
+          const text = `<h1>Proccess to change the password for the account ${req.body.recEmail}</h1>
+            <p>This is a linkcode to recover your password:</p>
+            <p><a href="http://localhost:5000/resetpassword=${rndString}">CLICK TO RECOVER</p>
+            <p>Enjoy your miserable day</p>`;
+          const subject = 'Your Password Recover Link';
+          mailnotifier.sendMail(userEmail, subject, text);
+        }
       }
     });
 });
-//postOrder.sh
-apiRouter.post('/order', (req, res) => {
-  /*
-    fs.writeFile(path.resolve(__dirname, './../../orders/orders'+Date.now()+'.txt'), JSON.stringify(req.body),
-      (err)=>{
-        if(err)
-          res.json({error: err});
-        res.json({success:'order saved'})
+
+
+// postUser.sh
+apiRouter.post('/register', (req, res) => {
+  con.query('select email from customers where email = ?', [req.body.email],
+    function(err, rows) {
+      if (err)
+        throw res.json();
+      if (rows.length > 0) {
+        return res.json({ err: 'The email ' + [req.body.email] + ' its already in use.' });
+      } else {
+        const rndString = randomstring.generate(20);
+        bcrypt.hash(req.body.pwd, 0, (err, pwdHash) => {
+          con.query('INSERT INTO customers (firstname,lastname,birthdate,phone,city,street,postal,email,pwd,activationcode) VALUES (?,?,?,?,?,?,?,?,?,?)', [req.body.firstname,
+              req.body.lastname,
+              req.body.birthdate,
+              req.body.phone,
+              req.body.city,
+              req.body.street,
+              req.body.postal,
+              req.body.email,
+              pwdHash,
+              rndString,
+            ],
+            (err, rows) => {
+              if (err) {
+                throw err;
+              } else {
+                return res.json({
+                  firstname: req.body.firstname,
+                  token: req.body.pwd,
+                  id: rows.insertId,
+                  birthdate: req.body.birthdate,
+                  lastname: req.body.lastname,
+                  email: req.body.email,
+                  phone: req.body.phone,
+                  city: req.body.city,
+                  postal: req.body.postal,
+                  street: req.body.street,
+                });
+              }
+            });
+          // email stuff
+          if (shopConfig.mailnotifications === '0') {
+            const userEmail = req.body.email;
+            const text = `<h1>Thank you ${req.body.firstname} ${req.body.lastname}</h1>
+            <p>This is a linkcode to activate your account:</p>
+            <p><a href="http://localhost:5000/activate=${rndString}">CLICK TO ACTIVATE</p>
+            <p>Enjoy your miserable day</p>`;
+            const subject = 'Your Activation Link';
+            mailnotifier.sendMail(userEmail, subject, text);
+          }
+        })
+      }
+    });
+});
+
+apiRouter.put('/activate/:activecode', (req, res) => {
+  con.query('UPDATE customers set active = 1 where activationcode = ?', [req.params.activecode],
+    (err, rows) => {
+      if (rows.affectedRows === 0) {
+        return res.json({ err: 'Your Code is not valid.' });
+      }
+      return res.json(rows);
+
+    });
+});
+
+apiRouter.put('/passwordreset/:passwordresetcode', (req, res) => {
+  con.query('UPDATE passwordreset set reset = now() where code = ?', [req.params.passwordresetcode],
+    (err, rows) => {
+      if (rows.affectedRows === 0) {
+        return res.json({ err: 'Your Code is not valid.' });
+      }
+      bcrypt.hash(req.body.newPassword, 0, (err, pwdHash) => {
+        con.query('select customerID from passwordreset where code = ?', [req.params.passwordresetcode],
+          (err, rows) => {
+            con.query('UPDATE customers set pwd = ? where id = ?', [pwdHash, rows[0].customerID],
+              (err, rows) => {
+                return res.json('Password successfully Changed');
+              });
+          });
       });
-  */
+    });
+});
+
+
+function ensureToken(req, res, next) {
+  const bearerHeader = req.headers['authorization'];
+  if (typeof bearerHeader !== 'undefined') {
+    const bearer = bearerHeader.split(" ");
+    const bearerToken = bearer[1];
+    req.token = bearerToken;
+    next();
+  } else {
+    res.render('nopass', {
+      status: 403
+    });
+    // res.sendStatus(403);
+  }
+}
+
+function isAuthorized(req, res, next) {
+  jwt.verify(req.token, serverSignature, (err, data) => {
+    if (err) {
+      return res.json({ err: 'YOU SHALL NOT PASS!!!! --"Gandalf"' });
+    } else {
+      next();
+    }
+  });
+}
+
+//postOrder.sh
+apiRouter.post('/order', ensureToken, isAuthorized, (req, res) => {
+  console.log('we are on /order');
   con.query('INSERT INTO orders (customer_id,created,payment_method_id) VALUES (?,now(),?)', [req.body.user.customer_id, req.body.payment_method_id],
     (err, rows) => {
       if (err) {
         throw err;
       } else {
-        con.query('INSERT INTO order_details (order_id,product_id,price) VALUES (' + rows.insertId + ',?,?)', [req.body.products[0].id, req.body.products[0].price],
-          (err, rows) => {
-            if (err) {
-              throw err;
-            } else {
-              res.json(rows);
-            }
-          });
+        const orderID = rows.insertId;
+        let sql = 'INSERT INTO order_details (order_id,product_id,price) VALUES ';
+        for (let i = 0; i < req.body.products.length; i += 1) {
+          const p = req.body.products[i];
+          let values = '(' + orderID + ',' + p.id + ',' + p.price + ')';
+          sql += values;
+          if (i < req.body.products.length - 1) {
+            sql += ','
+          }
+        }
+        con.query(sql, (err, rows) => {
+          if (shopConfig.mailnotifications === '0') {
+            // email stuff
+            const text = `<h1>Thank you ${req.body.user.name}</h1>
+            <p>You need to pay ${req.body.total_price} Euros.</p>
+            <p>Enjoy your miserable day</p>`;
+            const subject = 'Your Shopping list';
+            console.log('sending email to customer');
+            mailnotifier.sendMail(req.body.user.customer_email, subject, text);
+          }
+          return res.json(rows);
+        });
       }
     });
 });
+
 // modifyUser.sh
+apiRouter.put('/user/:userid', (req, res) => {
+  con.query('select pwd from customers where id = ?', [req.params.userid],
+    (err, rows) => {
+      if (err) {
+        throw err;
+      }
+      if (rows.length > 0 && bcrypt.compareSync(req.body.oldPwd, rows[0].pwd)) {
+        delete req.body.oldPwd;
+        var sql = 'UPDATE customers set ';
+        // console.info('user id: ', req.params.userid);
+        var i = 1;
+        var bodyLength = Object.keys(req.body).length;
+        var values = [];
+        for (var field in req.body) {
+          console.log('the field is:', field);
+          if (field == 'pwd') {
+            sql += field + ' = ?';
+            if (i < bodyLength)
+              sql += ',';
+            i++;
+            const pwdhash = bcrypt.hashSync(req.body.pwd, 0);
+            values.push(pwdhash);
+          } else {
+            sql += field + ' = ?';
+            if (i < bodyLength)
+              sql += ',';
+            i++;
+            values.push(req.body[field]);
+          }
+
+          // console.info('field is:',field);
+          // console.info('value is:',req.body[field]);
+        }
+        sql += 'where id = ?';
+        values.push(req.params.userid);
+        console.log('sql', sql);
+        console.log('values', values);
+        con.query(sql, values,
+          (err, rows) => {
+            if (err)
+              throw err;
+            console.log(rows);
+            return res.json({
+              firstname: req.body.firstname,
+              token: req.body.pwd,
+              id: req.params.userid,
+              birthdate: req.body.birthdate,
+              lastname: req.body.lastname,
+              email: req.body.email,
+              phone: req.body.phone,
+              city: req.body.city,
+              postal: req.body.postal,
+              street: req.body.street,
+            });
+          });
+      } else {
+        return res.json({ err: 'Password is not correct' });
+      }
+    });
+});
+/* WORKING
 apiRouter.put('/user/:userid', (req, res) => {
   var sql = 'UPDATE customers set ';
   // console.info('user id: ', req.params.userid);
@@ -263,10 +422,22 @@ apiRouter.put('/user/:userid', (req, res) => {
     (err, rows) => {
       if (err)
         throw err;
-      res.json(rows);
+      console.log(rows);
+      return res.json({
+        firstname: req.body.firstname,
+        token: req.body.pwd,
+        id: req.params.userid,
+        birthdate: req.body.birthdate,
+        lastname: req.body.lastname,
+        email: req.body.email,
+        phone: req.body.phone,
+        city: req.body.city,
+        postal: req.body.postal,
+        street: req.body.street,
+      });
     });
 });
-
+*/
 apiRouter.delete('/delete/:userid', (req, res) => {
   con.query('UPDATE customers set deleted = now() where id = ?', [req.params.userid],
     (err, rows) => {
@@ -275,14 +446,12 @@ apiRouter.delete('/delete/:userid', (req, res) => {
       res.json(rows);
     });
 });
-// Redirecting a 404 Error
-app.get("*", (req, res) => {
-  res.render('404', {
-    hostName: os.hostname()
-  });
+
+apiRouter.get("*", (req, res) => {
+  res.send('404 Sorry we couldnt find what you requested');
 });
 
-server.listen(port, (err) => {
+app.listen(port, (err) => {
   if (err) throw err;
   console.info('Server started on port', port);
 });
